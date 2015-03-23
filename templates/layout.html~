@@ -1,0 +1,58 @@
+<!doctype html>
+<title>Tennis Intelligence</title>
+<!-- #<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<!-- <div class=page> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css">
+
+<div class = "container col-md-6 vertical-center">
+  <h1>Tennis Intelligence</h1> 
+  {% if not session.logged_in %}
+    <a href="{{ url_for('login') }}">Log in</a>
+  {% else %}
+    <a href="{{ url_for('logout') }}">Log out</a>
+  {% endif %}
+  
+  {% for message in get_flashed_messages() %}
+    <div class="alert alert-info" role = "alert">{{ message }}</div>
+  {% endfor %}
+
+
+<!-- Photo Gallery Start-->
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="1" class=""></li>
+          <li data-target="#carousel-example-generic" data-slide-to="2" class=""></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+          <div class="item active">
+            <img src="{{ url_for('static', filename = '1.png')}}" data-holder-rendered="true">
+          </div>
+          <div class="item">
+            <img data-src="holder.js/1140x500/auto/#666:#444/text:Second slide" alt="Second slide [1140x500]" src="{{ url_for('static', filename = '2.jpg')}}" data-holder-rendered="true">
+          </div>
+          <div class="item">
+            <img data-src="holder.js/1140x500/auto/#555:#333/text:Third slide" alt="Third slide [1140x500]" src="{{ url_for('static', filename = '3.png')}}" data-holder-rendered="true">
+          </div>
+        </div>
+        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+<!-- end-->
+
+  <div class = "well">
+  <p>Tennis Intelligence is a toolbox applying machine learning techniques to tennis Hawk-eye   data. It gives in-depth analysis of professional tennis players which can help coaches to plan an upcoming opponent.</p> 
+  </div> 
+{% block body %}{% endblock %}
+<!-- </div> -->
+</div>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>

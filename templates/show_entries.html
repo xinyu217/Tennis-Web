@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% block body %}
+
+  {% if session.logged_in %}
+    <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+      <dl>
+        <dt>Player Name:
+        <dd><input type=text size=30 name=player_name>
+        <dt>Handedness:
+        <dd><input type=text size=30  name=hand>
+        <dt>Age:
+        <dd><input type=number size=30 name=age>
+	<dt>Gender:
+	<dd><input type=text size=30 name = gender>
+	<dt>Rank:
+	<dd><input type=number size=30 name=rank>
+        <!--<dd><input type=submit value=Add Entry>-->
+        <dt>&nbsp;
+	<dd><button type="submit" class="btn btn-sm btn-primary">Add Entry</button>
+      </dl>
+    </form>
+  {% endif %}
+
+<table class="table table-condensed">
+   <thead>    
+    <tr>
+     <td><b>Player Name</b></td>
+     <td><b>Handedness</b></td>
+     <td><b>Age</b></td>
+     <td><b>Gender</b></td>
+     <td><b>Rank</b></td>
+    </tr>
+   </thead>
+   <tbody>
+  {% for player in players %}
+    <tr>
+     <td>{{ player.player_name }}</td>
+     <td>{{ player.hand }}</td>
+     <td>{{ player.age }}</td>
+     <td>{{ player.gender }}</td>
+     <td>{{ player.rank }} </td>
+   </tr>
+  {% else %}
+    <tr><td><em>No entries here so far</em></td></tr>
+  {% endfor %}
+  </tbody>  
+</table>
+
+{% if not session.logged_in %}
+<form action="{{ url_for('test')}}" method=post class=form-horizontal>
+    <div class="form-group">
+        <label class="col-xs-3 control-label">Player:</label>
+        <div class="col-xs-5 selectContainer">
+            <select name="player_query" class="form-control">
+                <option value = "all_players">All Players</option>
+                {% for player in all %}
+                <option value = "{{player.player_name}}">{{player.player_name}}</option>
+		{% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-xs-5 col-xs-offset-3">
+            <button type="submit" class="btn btn-default">Search</button>
+        </div>
+    </div>
+</form>
+{%endif%}
+
+
+{% endblock %}

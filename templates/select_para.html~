@@ -1,0 +1,120 @@
+<!doctype html>
+<title>Select Parameters</title>
+<!-- #<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<!-- <div class=page> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css">
+
+
+<div class="container text-center">
+<h2>Select Parameters for Analysis</h2>
+<hr>
+
+
+<form action="{{ url_for('test')}}" method=post class=form-horizontal target= "_blank">
+
+<h3 class="col-md-10 col-md-offset-1 text-left">Select Player:</h3>
+<br><br>
+
+<div class="row">
+    <div class="form-group">
+       
+         <div class="col-md-2 col-md-offset-2 text-center">
+         <img src="{{ url_for('static', filename = 'djokovic.png')}}" alt="Djokovic" width="90" height="90" class="img-circle">
+         </div>
+
+  <div class="col-md-2 text-center">
+  <img src="{{ url_for('static', filename = 'federer.jpg')}}" alt="Federer" width="90" height = "90" class="img-circle">
+  </div>
+
+  <div class="col-md-2 text-center">
+  <img src="{{ url_for('static', filename = 'nadal.jpg')}}" alt="Nadal" width="90" height="90" class="img-circle">
+  </div>
+
+  <div class="col-md-2 text-center">
+  <img src="{{ url_for('static', filename = 'murray.jpg')}}" alt="Murray" width="90" height="90" class="img-circle">
+  </div>
+</div>
+</div>
+
+
+
+<div class="row">
+    <div class="form-group">
+            <div class="btn-group btn-block col-md-8 col-md-offset-2" data-toggle="buttons" id="player_form">
+                <label class="btn btn-default col-md-2">
+                    <input type="radio" name="player_radio" value="Novak Djokovic" > Djokovic
+                </label> 
+                <label class="btn btn-default col-md-2">
+                    <input type="radio" name="player_radio" value="Roger Federer" > Federer
+                </label> 
+                <label class="btn btn-default col-md-2">
+                    <input type="radio" name="player_radio" value="Rafael Nadal" > Nadal
+                </label> 
+                <label class="btn btn-default col-md-2">
+                    <input type="radio" name="player_radio" value="Andy Murray" > Murray
+                </label> 
+            </div>
+    </div>
+</div>    
+<hr>
+
+
+<h3 class="col-md-10 col-md-offset-1 text-left">Match Context:</h3>
+<br><br>
+
+<div class="row">
+    <div class="form-group">
+            <div class="btn-group btn-block col-md-8 col-md-offset-2" data-toggle="buttons" id="context_form">
+                <label class="btn btn-default col-md-2">
+                    <input type="radio" name="cont_radio" value=1 > All Serves
+                </label> 
+                <label class="btn btn-default col-md-2">
+                    <input type="radio" name="cont_radio" value=2 > Break-point Serves
+                </label> 
+                <label class="btn btn-default col-md-2">
+                    <input type="radio" name="cont_radio" value=3 > Serve to Win
+                </label> 
+                <label class="btn btn-default col-md-2">
+                    <input type="radio" name="cont_radio" disabled value=4 > Others
+                </label> 
+    </div>
+</div>
+
+
+
+
+<hr>
+<div class="row">
+    <div class="form-group">
+        <div class="col-xs-4 col-xs-offset-4">
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Start Analysis</button>
+        </div>
+    </div>
+</div>
+</form>
+</div>
+
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("#player_form .btn").click(function(){
+       $("#player_form").val($(this).text());
+       $("#player_form .btn").removeClass('active');
+       $(this).addClass('active');
+    });
+});
+$(document).ready(function(){
+    $("#context_form .btn").click(function(){
+       $("#context_form").val($(this).text());
+       $("#context_form .btn").removeClass('active');
+       $(this).addClass('active');
+    });
+});
+
+
+
+</script>
+

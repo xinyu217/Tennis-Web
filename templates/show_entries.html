@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-
+<!--
   {% if session.logged_in %}
     <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
       <dl>
@@ -14,13 +14,14 @@
 	<dd><input type=text size=30 name = gender>
 	<dt>Rank:
 	<dd><input type=number size=30 name=rank>
-        <!--<dd><input type=submit value=Add Entry>-->
+        <dd><input type=submit value=Add Entry>
         <dt>&nbsp;
 	<dd><button type="submit" class="btn btn-sm btn-primary">Add Entry</button>
       </dl>
     </form>
   {% endif %}
-
+-->
+<h2 class = "text-center">Players in the tournaments</h2>
 <table class="table table-condensed">
    <thead>    
     <tr>
@@ -32,7 +33,7 @@
     </tr>
    </thead>
    <tbody>
-  {% for player in players %}
+  {% for player in players  %}
     <tr>
      <td>{{ player.player_name }}</td>
      <td>{{ player.hand }}</td>
@@ -46,14 +47,16 @@
   </tbody>  
 </table>
 
-{% if not session.logged_in %}
+
+{% if session.logged_in %}
 <form action="{{ url_for('test')}}" method=post class=form-horizontal>
     <div class="form-group">
-        <label class="col-xs-3 control-label">Player:</label>
+        <label class="col-xs-3 control-label">Show Shots by Player:</label>
         <div class="col-xs-5 selectContainer">
             <select name="player_query" class="form-control">
-                <option value = "all_players">All Players</option>
-                {% for player in all %}
+                <!--<option value = "all_players">All Players</option>-->
+		<option>Please select a player...</option>
+                {% for player in players %}
                 <option value = "{{player.player_name}}">{{player.player_name}}</option>
 		{% endfor %}
             </select>

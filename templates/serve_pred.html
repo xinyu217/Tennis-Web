@@ -1,0 +1,275 @@
+<!doctype html>
+<head>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript">
+
+
+function drawShape(){
+  
+  // get the canvas element using the DOM
+  var size_factor = document.getElementsByName("size")[0].value*30;
+
+  var canvas = document.getElementById('mycanvas');
+ 
+  // Make sure we don't execute when canvas isn't supported
+  if (canvas.getContext){
+ 
+    // use getContext to use the canvas for drawing
+    var ctx = canvas.getContext('2d');
+    
+    document.getElementById('mycanvas').setAttribute('width', 23.78*size_factor); 
+    document.getElementById('mycanvas').setAttribute('height', 10.97*size_factor);
+    ctx.clearRect (0,0,canvas.width,canvas.height );
+   
+    ctx.beginPath();
+    ctx.fillStyle = "#045FB4";
+    ctx.fillRect(0,0,23.78*size_factor,10.97*size_factor);
+
+
+    ctx.moveTo(0,1.37*size_factor);
+    ctx.lineTo(23.78*size_factor,1.37*size_factor);
+    ctx.strokeStyle = "#FFFFFF";
+
+    ctx.moveTo(0,9.6*size_factor);
+    ctx.lineTo(23.78*size_factor,9.6*size_factor);
+
+    ctx.moveTo(5.485*size_factor,5.485*size_factor);
+    ctx.lineTo(18.29*size_factor,5.485*size_factor);
+
+    ctx.moveTo(11.89*size_factor,0);
+    ctx.lineTo(11.89*size_factor,10.97*size_factor);
+
+    ctx.moveTo(5.485*size_factor,1.37*size_factor);
+    ctx.lineTo(5.485*size_factor,9.6*size_factor);
+
+    ctx.moveTo(18.29*size_factor,1.37*size_factor);
+    ctx.lineTo(18.29*size_factor,9.6*size_factor);
+    ctx.stroke();
+
+    ctx.fillStyle = "#FFFFFF"; 
+
+    var server = $("#server_select .btn.active").text();
+    var receiver = $("#receiver_select .btn.active").text();    
+
+    ctx.save();
+    ctx.rotate(Math.PI/2);
+    ctx.textAlign = "center";
+    ctx.font="30px Georgia";
+    ctx.fillText(server,149*size_factor/30,-62.5*size_factor/30);
+    ctx.restore();
+
+    ctx.save();
+    ctx.rotate(-Math.PI/2);
+    ctx.textAlign = "center";
+    ctx.font="30px Georgia";
+    ctx.fillText(receiver,-149*size_factor/30,637.5*size_factor/30);
+    ctx.restore();
+
+    var start_x = [-11.3+11.89+Math.random()/2,-11.4+11.89+Math.random()/2,-11.2+11.89+Math.random()/2];
+    var start_y = [0.62+5.485,0.77+5.485,0.61+5.485];
+    var end_x = [5.48+11.89+Math.random(),5.31+11.89-Math.random(),4.82+11.89+Math.random()];
+    var end_y = [-3.16+5.485+Math.random(),-1.31+5.485+Math.random(),-3.68+5.485+Math.random()];
+
+    ctx.lineWidth=3;
+    ctx.beginPath();
+    ctx.strokeStyle = "#FF0000";   
+    ctx.moveTo(start_x[0]*size_factor,start_y[0]*size_factor);
+    ctx.lineTo(end_x[0]*size_factor,end_y[0]*size_factor);   
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.strokeStyle = "#00FF00";
+    ctx.moveTo(start_x[1]*size_factor,start_y[1]*size_factor);
+    ctx.lineTo(end_x[1]*size_factor,end_y[1]*size_factor);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.strokeStyle = "#0000FF";
+    ctx.moveTo(start_x[2]*size_factor,start_y[2]*size_factor);
+    ctx.lineTo(end_x[2]*size_factor,end_y[2]*size_factor);
+    ctx.stroke(); 
+
+    ctx.fillStyle = "FFFF00";
+    ctx.fillRect(start_x[0]*size_factor-2,start_y[0]*size_factor-2,4,4);
+
+//    ctx.fillStyle = "FFFF00";
+    ctx.fillRect(start_x[1]*size_factor-2,start_y[1]*size_factor-2,4,4);
+
+//    ctx.fillStyle = "FFFF00";
+    ctx.fillRect(start_x[2]*size_factor-2,start_y[2]*size_factor-2,4,4);
+
+//    ctx.fillStyle = "FFFF00";
+    ctx.fillRect(end_x[0]*size_factor-2,end_y[0]*size_factor-2,4,4);
+
+//    ctx.fillStyle = "FFFF00";
+    ctx.fillRect(end_x[1]*size_factor-2,end_y[1]*size_factor-2,4,4);
+
+//    ctx.fillStyle = "FFFF00";
+    ctx.fillRect(end_x[2]*size_factor-2,end_y[2]*size_factor-2,4,4);
+
+
+
+
+  } else {
+    alert('You need Safari or Firefox 1.5+ to see this demo.');
+  }
+}
+
+</script>
+</head>
+
+
+<title>Serve Prediction</title>
+<!-- #<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<!-- <div class=page> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css">
+
+<body onload="drawShape()">
+
+<div class = "container col-md-10 col-md-offset-1 text-center">
+  <h1>Serve Prediction (Not Working Properly)</h1> 
+
+<div class = "row">
+  {% if not session.logged_in %}
+    <a class = "btn btn-default" href="{{ url_for('login') }}">Log in</a>
+  {% else %}
+    <a class ="btn btn-default" href="{{ url_for('logout') }}">Log out</a>
+  {% endif %}
+  
+  {% for message in get_flashed_messages() %}
+    <div class="alert alert-info" role = "alert">{{ message }}</div>
+  {% endfor %}
+</div>
+<hr>
+
+
+<div class = "row text-left">
+<div class="col-md-1">
+<h5> Server:</h5>
+</div>
+
+
+<div class="btn-group col-md-5" id="server_select">
+<button class="btn btn-default active" value=1>Djokovic</button>
+<button class="btn btn-default" value=2>Federer</button>
+<button class="btn btn-default" value=3>Nadal</button>
+<button class="btn btn-default" value=4>Murray</button>
+</div>
+
+
+
+<div class="col-md-1">
+<h5> Receiver:</h5>
+</div>
+
+
+<div class="btn-group col-md-5" id="receiver_select">
+<button class="btn btn-default active" value=3>All</button>
+<button class="btn btn-default" value=0>Djokovic</button>
+<button class="btn btn-default" value=1>Nadal</button>
+<button class="btn btn-default" value=2>Federer</button>
+<button class="btn btn-default" value=3>Murray</button>
+</div>
+</div>
+<hr>
+
+
+
+
+
+<div class = "row text-left">
+<div class="col-md-2">
+<h5> Serve Direction:</h5>
+</div>
+
+
+<div class="btn-group col-md-4" id="side_select">
+<button class="btn btn-default active" value=1>All</button>
+<button class="btn btn-default" value=2>Ad Court</button>
+<button class="btn btn-default" value=3>Deuce Court</button>
+</div>
+
+
+
+<div class="col-md-2">
+<h5> Serve Context:</h5>
+</div>
+
+
+<div class="btn-group col-md-4" id="context_select">
+<button class="btn btn-default active" value=3>All</button>
+<button class="btn btn-default" value=0>Break-Points</button>
+<button class="btn btn-default" value=1>Serve to Win</button>
+</div>
+</div>
+<hr>
+
+<div class ="row text-center">
+<div class = "container text-center">
+<canvas id="mycanvas" style="border:3px solid #FFFFFF;"></canvas>
+</div>
+</div>
+
+
+
+<div class = "row text-left">
+<div class="col-md-2 col-md-offset-3">
+<h5> Size of the Plot:</h5>
+</div>
+
+<div class = "col-md-4">
+<select class="form-control" name="size" onchange="drawShape()">
+  <option value = 0.7>Small</option>
+  <option value = 0.8 selected>Standard</option>
+  <option value = 1>Large</option>
+</select>
+</div>
+</div>
+
+
+
+
+</div>
+
+
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("#server_select .btn").click(function(){
+       $("#server_select").val($(this).text());
+       $("#server_select .btn").removeClass('active');
+       $(this).addClass('active');
+       drawShape();
+    });
+});
+
+$(document).ready(function(){
+    $("#receiver_select .btn").click(function(){
+       $("#receiver_select").val($(this).val());
+       $("#receiver_select .btn").removeClass('active');
+       $(this).addClass('active');
+       drawShape();
+    });
+});
+
+$(document).ready(function(){
+    $("#side_select .btn").click(function(){
+       $("#side_select").val($(this).text());
+       $("#side_select .btn").removeClass('active');
+       $(this).addClass('active');
+       drawShape();
+    });
+});
+
+$(document).ready(function(){
+    $("#context_select .btn").click(function(){
+       $("#context_select").val($(this).val());
+       $("#context_select .btn").removeClass('active');
+       $(this).addClass('active');
+       drawShape();
+    });
+});
+</script>

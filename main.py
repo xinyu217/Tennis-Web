@@ -42,8 +42,7 @@ def show_entries():
     cur = g.db.execute('select player_name, hand, age, gender, rank from players order by id desc')
     players = [dict(player_name=row[0], hand=row[1], age = row[2], \
 gender = row[3], rank =row[4]) for row in cur.fetchall()]
-
-    return render_template('show_entries.html', all = players, players=players)
+    return render_template('show_entries.html', players=players)
 
 @app.route('/add', methods=['POST'])
 def add_entry():
@@ -56,14 +55,38 @@ def add_entry():
 
 @app.route('/test', methods=['POST'])
 def test():
-    p = request.form['player_query']
-    cur = g.db.execute('select * from players WHERE player_name = "%s"' %p)
-    players = [dict(player_name=row[1],hand=row[2],age=row[3],gender=row[4],rank=row[5]) for row in cur.fetchall()]
+    if not session.get('logged_in'):
+        abort(401)
+    cont = request.form['cont_radio'];    
+    p = request.form['player_radio'];
+    if cont == '1':
+        cur = g.db.execute('select * from shots WHERE player_name = "%s"' %p)
+    elif cont == '2':
+        cur = g.db.execute('select * from shots WHERE player_name = "%s" AND receiver_score>=3 AND receiver_score>server_score' %p)
+    elif cont == '3':
+        cur = g.db.execute('select * from shots WHERE player_name = "%s" AND server_score>=3 AND server_score>receiver_score' %p)
+    else:
+        cur = g.db.execute('select * from shots WHERE player_name = "%s"' %p)
+    
+    shots = [dict(player_name=row[0],speed = row[2],x=row[6],y=row[7],score_s=row[11], score_r=row[12],tournament=row[10],start_x=row[3],start_y=row[4], serve_class=row[1]) for row in cur.fetchall()]
+    
     cur2 = g.db.execute('select * from players order by id desc')
-    all = [dict(player_name=row[1],hand=row[2],age=row[3],gender=row[4],rank=row[5]) for row in cur2.fetchall()]
-    if p=="all_players":
-        players = all
-    return render_template('show_entries.html',all = all,players=players)
+    players = [dict(player_name=row[1],hand=row[2],age=row[3],gender=row[4],rank=row[5]) for row in cur2.fetchall()]
+    num = len(shots)
+    return render_template('show_shots.html',players = players,shots=shots, p = p, num = num, cont=cont)
+
+@app.route('/select_para', methods=['GET', 'POST'])
+def select_para():
+    if not session.get('logged_in'):
+        abort(401)
+    return render_template('select_para.html')
+
+@app.route('/serve_pred', methods=['GET', 'POST'])
+def serve_pred():
+    if not session.get('logged_in'):
+        abort(401)
+    return render_template('serve_pred.html')
+
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -86,5 +109,11 @@ def logout():
     flash('You were logged out')
     return redirect(url_for('show_entries'))
 
+@app.route('/plot')
+def plot():
+    return render_template('plot_serve.html')
+
+
 if __name__ == '__main__':
     app.run(host = '0.0.0.0', port = 5000)
+

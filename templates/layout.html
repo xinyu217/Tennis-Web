@@ -5,19 +5,21 @@
 <!-- <div class=page> -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css">
 
-<div class = "container col-md-6 vertical-center">
-  <h1>Tennis Intelligence</h1> 
-  {% if not session.logged_in %}
-    <a href="{{ url_for('login') }}">Log in</a>
-  {% else %}
-    <a href="{{ url_for('logout') }}">Log out</a>
-  {% endif %}
+
+<div class="container">
+<div class="row">
+<div class="col-md-10 col-md-offset-1">
+  <h1 class="text-center">Tennis Intelligence</h1>  
   
   {% for message in get_flashed_messages() %}
     <div class="alert alert-info" role = "alert">{{ message }}</div>
   {% endfor %}
+</div>
+</div>
+<hr>
 
-
+<div class="row">
+<div class="col-md-7 col-md-offset-1">
 <!-- Photo Gallery Start-->
 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -45,14 +47,130 @@
           <span class="sr-only">Next</span>
         </a>
       </div>
-<!-- end-->
+</div>
+<div class="col-md-3 verticle-center" style="border-style:solid;">
+  {% if not session.logged_in %}  
+  {% if error %}<div class="alert alert-danger" role="alert"><strong>Error:</strong> {{ error }}</div>{% endif %}
+  <br>
+  <form action="{{ url_for('login') }}" method=post>
+    <dl>
+      <dt>Username:
+      <input type=text name=username>
+      <dt>&nbsp;
+      <dt>Password:&nbsp
+      <input type=password name=password>
+      <dt>&nbsp;
+      <dt><input class = "btn btn-primary" type=submit value=Login>     
+    </dl>
+  </form>
+  <br>
+  {% else %}
+  <div class="text-center">
+    
+    <h2>Welcome, admin!</h2>
+    <br>
+    <a class="btn btn-primary" href="{{ url_for('logout') }}">Log out</a>
+    <br><br>
+    <br><br>
+    <br>
+  </div>
+  {% endif %}
 
+</div>
+<!-- end-->
+</div>
+
+<hr>
+<div class = "row">
+
+  <div class="col-md-2 col-md-offset-1">
+  <h3>Hawkeye Analysis</h3>
+  </div>
+
+  <div class="col-md-8">
   <div class = "well">
   <p>Tennis Intelligence is a toolbox applying machine learning techniques to tennis Hawk-eye   data. It gives in-depth analysis of professional tennis players which can help coaches to plan an upcoming opponent.</p> 
   </div> 
-{% block body %}{% endblock %}
-<!-- </div> -->
+  </div>
+ 
 </div>
+<hr>
+
+{% if session.logged_in %}
+
+<div class="row">
+<div class="col-md-3 text-center">
+<a href="{{ url_for('select_para') }}">
+  <button class="btn btn-info btn-lg btn-block"  style="height:100px; display:table; vertical-align: middle;">Serve Visualization</button>
+</a>
+</div>
+
+<div class="col-md-3 text-center">
+<a href="{{ url_for('serve_pred')}}">
+  <button class="btn btn-primary btn-lg btn-block" style="height:100px; display:table-cell; vertical-align: middle;">Serve Prediction</button>  
+</a>
+</div>
+
+<div class="col-md-3 text-center">
+  <button class="btn btn-warning btn-lg btn-block disabled" style="height:100px; display:table-cell; vertical-align: middle;" >Sweet-Spot Analysis</button>
+</div>
+
+<div class="col-md-3 text-center">
+  <button class="btn btn-success btn-lg btn-block disabled" style="height:100px; display:table-cell; vertical-align: middle;">Load more files</button>
+</div>
+</div>
+<hr>
+
+
+{# block body #}{# endblock #}
+
+</div>
+
+<div class="row">
+  <div class="col-md-2 col-md-offset-2 text-center">
+  <img src="{{ url_for('static', filename = 'djokovic.png')}}" alt="Djokovic" width="100" height="100" class="img-circle">
+  <h5>Novak Djokovic</h5>
+  </div>
+
+  <div class="col-md-2 text-center">
+  <img src="{{ url_for('static', filename = 'federer.jpg')}}" alt="Federer" width="100" height = "100" class="img-circle">
+  <h5>Roger Federer</h5>
+  </div>
+  
+  <div class="col-md-2 text-center">
+  <img src="{{ url_for('static', filename = 'nadal.jpg')}}" alt="Nadal" width="100" height="100" class="img-circle">
+  <h5>Rofael Nadal</h5>
+  </div>
+
+  <div class="col-md-2 text-center">
+  <img src="{{ url_for('static', filename = 'murray.jpg')}}" alt="Murray" width="100" height="100" class="img-circle">
+  <h5>Andy Murray</h5>
+  </div>
+</div>
+<hr>
+{% endif %}
+
+
+
+
+
+<footer class="footer">
+<div class="container text-center">
+  <div class = "col-md-8 col-md-offset-2">
+  <address>
+<!--
+  <strong>Copyright.</strong>,
+  TennisIntelligence.com
+  <abbr title="Phone">P:</abbr> (123) 456-7890
+  </br>
+-->
+  <p>&copy; Felix Wei,
+  <a href="mailto:#">xinyu217@gmail.com</a></p>
+  </address>
+  </div>
+</div>
+</footer>
+
 <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
